@@ -1,0 +1,30 @@
+---
+const currentYear = new Date().getFullYear();
+---
+
+<footer>
+    <p>
+        &copy; {currentYear} Text Cleaning & Formatting. All rights reserved. Made
+        by{" "}
+        <a
+            href="https://vberkoz.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="font-medium underline underline-offset-4">Vasyl Berkoz</a
+        >
+    </p>
+</footer>
+
+<style>
+    footer {
+        margin-top: 1rem;
+        width: 100%;
+        text-align: center;
+        font-size: smaller;
+    }
+    a {
+        font-weight: 500;
+        text-decoration-line: underline;
+        text-underline-offset: 4px;
+    }
+</style>

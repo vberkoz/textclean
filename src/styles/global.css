@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+.panels {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 0.5rem;
+    margin: 1rem 0;
+}
+@media (min-width: 768px) {
+    .panels {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.title {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #364153;
+}
+.description {
+    font-size: 14px;
+    font-weight: 400;
+    color: #364153;
+}

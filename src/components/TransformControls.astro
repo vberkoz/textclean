@@ -1,0 +1,200 @@
+---
+import { Checkbox } from "@/components/ui/checkbox"
+import { Label } from "@/components/ui/label"
+
+type InputType =
+    | "text"
+    | "number"
+    | "checkbox"
+    | "radio"
+    | "password"
+    | "email"
+    | "tel"
+    | "url"
+    | "search"
+    | "date"
+    | "time"
+    | "datetime-local"
+    | "month"
+    | "week"
+    | "color"
+    | "file"
+    | "range";
+const transformations = [
+    {
+        id: "trim-whitespace",
+        label: "Trim Whitespace",
+        description: "Removes leading/trailing whitespace",
+    },
+    {
+        id: "remove-extra-spaces",
+        label: "Remove Extra Spaces",
+        description: "Collapses multiple spaces into one",
+    },
+    {
+        id: "remove-line-breaks",
+        label: "Remove Line Breaks",
+        description: "Removes newlines and carriage returns",
+    },
+    {
+        id: "normalize-text",
+        label: "Normalize Text",
+        description: "Normalizes Unicode characters and spacing",
+    },
+    {
+        id: "strip-html-tags",
+        label: "Strip HTML Tags",
+        description: "Removes HTML tags from the text",
+    },
+    {
+        id: "unindent-text",
+        label: "Unindent Text",
+        description: "Removes indentation from multi-line text",
+    },
+    {
+        id: "indent-text",
+        label: "Indent Text",
+        description: "Adds indentation to each line",
+        hasInput: true,
+        inputId: "indent-size-input",
+        inputLabel: "Spaces:",
+        inputType: "number",
+        inputMin: "1",
+        inputMax: "10",
+        inputDefault: "2",
+    },
+    {
+        id: "justify-text",
+        label: "Justify Text",
+        description: "Aligns text to both left and right margins",
+    },
+    {
+        id: "left-align-text",
+        label: "Left Align Text",
+        description: "Aligns text to the left",
+    },
+    {
+        id: "right-align-text",
+        label: "Right Align Text",
+        description: "Aligns text to the right",
+    },
+    {
+        id: "center-align-text",
+        label: "Center Align Text",
+        description: "Centers text horizontally",
+    },
+    {
+        id: "reverse-text",
+        label: "Reverse Text",
+        description: "Reverses the entire string character by character",
+    },
+    {
+        id: "reverse-words",
+        label: "Reverse Words",
+        description: "Reverses the order of words",
+    },
+    {
+        id: "reverse-sentences",
+        label: "Reverse Sentences",
+        description: "Reverses the order of sentences",
+    },
+    {
+        id: "reverse-lines",
+        label: "Reverse Lines",
+        description: "Reverses the order of lines",
+    },
+    {
+        id: "sort-lines",
+        label: "Sort Lines",
+        description: "Sorts lines alphabetically (A–Z)",
+    },
+    {
+        id: "shuffle-lines",
+        label: "Shuffle Lines",
+        description: "Randomly shuffles the lines",
+    },
+    {
+        id: "remove-empty-lines",
+        label: "Remove Empty Lines",
+        description: "Deletes blank lines",
+    },
+    {
+        id: "add-line-numbers",
+        label: "Add Line Numbers",
+        description: "Prefixes each line with its number",
+    },
+    {
+        id: "limit-line-length",
+        label: "Limit Line Length",
+        description: "Wraps text so no line exceeds specified length",
+        hasInput: true,
+        inputId: "line-length-input",
+        inputLabel: "Characters:",
+        inputType: "number",
+        inputMin: "10",
+        inputMax: "200",
+        inputDefault: "80",
+    },
+];
+---
+
+<div>
+    <h4>Text Transformations</h4>
+
+    <div class="panels">
+        {
+            transformations.map((transform) => (
+                <div class="transform-item">
+                    <span class="transform-control">
+                        <input type="checkbox" id={transform.id} />
+                    </span>
+                    <span>
+                        <label for={transform.id} class="title">{transform.label}</label>
+                        <p class="description">{transform.description}</p>
+                        {transform.hasInput && (
+                            <label for={transform.inputId} class="description">
+                                {transform.inputLabel}
+                            </label>
+                            <input
+                                type={transform.inputType as InputType}
+                                id={transform.inputId}
+                                min={transform.inputMin}
+                                max={transform.inputMax}
+                                value={transform.inputDefault}
+                            />
+                        )}
+                    </span>
+                </div>
+            ))
+        }
+    </div>
+</div>
+
+<style>
+    h4 {
+        font-size: 1.25rem;
+        font-weight: 400;
+        line-height: 1.75rem;
+        letter-spacing: -0.025em;
+    }
+    .transform-item {
+        display: flex;
+        align-items: start;
+        margin-bottom: 10px;
+    }
+    .transform-control {
+        padding: 1px 5px 0 0;
+    }
+    input, input[type="checkbox"] {
+        border: 1px solid #ccc;
+        border-radius: .25rem;
+        font-size: 14px;
+        font-family: "JetBrains Mono", monospace;
+        text-align: center;
+        transition: box-shadow 0.3s ease;
+    }
+    input:focus, input:focus[type="checkbox"] {
+        outline: none;
+        box-shadow: 0 0 0 2px #ccc;
+    }
+</style>

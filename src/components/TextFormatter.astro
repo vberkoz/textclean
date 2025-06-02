@@ -1,0 +1,221 @@
+---
+import Header from "./Header.astro";
+import Footer from "./Footer.astro";
+import TextArea from "./TextArea.astro";
+import TransformControls from "./TransformControls.astro";
+---
+
+<div>
+    <Header />
+
+    <main>
+        <div class="panels">
+            <div>
+                <TextArea
+                    id="original-text"
+                    label="Original Text"
+                    placeholder="Enter or paste your text here..."
+                />
+                <button id="reset-button">Reset</button>
+            </div>
+
+            <div>
+                <TextArea
+                    id="transformed-text"
+                    label="Transformed Text"
+                    placeholder="Transformed text will appear here..."
+                    readonly={true}
+                />
+                <button id="copy-button">Copy to Clipboard</button>
+            </div>
+        </div>
+
+        <TransformControls />
+    </main>
+
+    <Footer />
+</div>
+
+<script>
+    import { applyTransformations } from "../scripts/transformations.js";
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const originalTextarea = document.getElementById(
+            "original-text"
+        ) as HTMLTextAreaElement;
+        const transformedTextarea = document.getElementById(
+            "transformed-text"
+        ) as HTMLTextAreaElement;
+        const transformControls = document.querySelectorAll(
+            ".transform-control input"
+        );
+        const resetButton = document.getElementById("reset-button");
+        const copyButton = document.getElementById("copy-button");
+
+        // Character/word/line counters
+        const originalCounter = document.getElementById(
+            "original-text-counter"
+        );
+        const transformedCounter = document.getElementById(
+            "transformed-text-counter"
+        );
+
+        // Apply transformations whenever the original text or transform controls change
+        function updateTransformedText() {
+            const originalText = originalTextarea.value;
+            const selectedTransforms = Array.from(transformControls)
+                .filter(
+                    (input): input is HTMLInputElement =>
+                        input instanceof HTMLInputElement && input.checked
+                )
+                .map((input: HTMLInputElement) => input.id);
+
+            // Get the line length limit value if that transformation is selected
+            const lineLengthInput = document.getElementById(
+                "line-length-input"
+            ) as HTMLInputElement;
+            const lineLength = lineLengthInput
+                ? parseInt(lineLengthInput.value, 10)
+                : 80;
+
+            // Get the indent size if that transformation is selected
+            const indentSizeInput = document.getElementById(
+                "indent-size-input"
+            ) as HTMLInputElement;
+            const indentSize = indentSizeInput
+                ? parseInt(indentSizeInput.value, 10)
+                : 2;
+
+            // Apply the selected transformations
+            const transformedText = applyTransformations(
+                originalText,
+                selectedTransforms,
+                {
+                    lineLength,
+                    indentSize,
+                }
+            );
+
+            // Update the transformed text area
+            transformedTextarea.value = transformedText;
+
+            // Update counters
+            updateCounters();
+        }
+
+        function updateCounters() {
+            const originalText = originalTextarea.value;
+            const transformedText = transformedTextarea.value;
+
+            // Original text counter
+            if (originalCounter) {
+                const charCount = originalText.length;
+                const wordCount = originalText.trim()
+                    ? originalText.trim().split(/\s+/).length
+                    : 0;
+                const lineCount = originalText.split("\n").length;
+
+                originalCounter.textContent = `${charCount} characters, ${wordCount} words, ${lineCount} lines`;
+            }
+
+            // Transformed text counter
+            if (transformedCounter) {
+                const charCount = transformedText.length;
+                const wordCount = transformedText.trim()
+                    ? transformedText.trim().split(/\s+/).length
+                    : 0;
+                const lineCount = transformedText.split("\n").length;
+
+                transformedCounter.textContent = `${charCount} characters, ${wordCount} words, ${lineCount} lines`;
+            }
+        }
+
+        // Event listeners
+        originalTextarea.addEventListener("input", updateTransformedText);
+
+        transformControls.forEach((control) => {
+            control.addEventListener("change", updateTransformedText);
+        });
+
+        // Line length input event listener
+        const lineLengthInput = document.getElementById(
+            "line-length-input"
+        ) as HTMLInputElement;
+        if (lineLengthInput) {
+            lineLengthInput.addEventListener("input", updateTransformedText);
+        }
+
+        // Indent size input event listener
+        const indentSizeInput = document.getElementById(
+            "indent-size-input"
+        ) as HTMLInputElement;
+        if (indentSizeInput) {
+            indentSizeInput.addEventListener("input", updateTransformedText);
+        }
+
+        // Copy to clipboard
+        if (copyButton) {
+            copyButton.addEventListener("click", () => {
+                transformedTextarea.select();
+                document.execCommand("copy");
+
+                // Visual feedback
+                copyButton.classList.add("copied");
+                copyButton.textContent = "Copied!";
+
+                setTimeout(() => {
+                    copyButton.classList.remove("copied");
+                    copyButton.textContent = "Copy to Clipboard";
+                }, 2000);
+            });
+        }
+
+        // Reset button
+        if (resetButton) {
+            resetButton.addEventListener("click", () => {
+                originalTextarea.value = "";
+                transformedTextarea.value = "";
+
+                // Uncheck all transform controls
+                transformControls.forEach((control: Element) => {
+                    (control as HTMLInputElement).checked = false;
+                });
+
+                // Reset line length and indent size inputs to defaults
+                if (lineLengthInput) lineLengthInput.value = "80";
+                if (indentSizeInput) indentSizeInput.value = "2";
+
+                // Update counters
+                updateCounters();
+            });
+        }
+
+        // Initial counter update
+        updateCounters();
+    });
+</script>
+
+<style>
+    button {
+        border: 1px solid #ccc;
+        border-radius: .5rem;
+        cursor: pointer;
+        padding: 0 14px;
+        height: 2rem;
+        background-color: #f9f9f9;
+        color: #333;
+        font-size: 14px;
+        font-weight: 400;
+        transition: background-color 0.3s ease;
+    }
+    button:hover {
+        background-color: #e9e9e9;
+    }
+    button:active {
+        background-color: #d9d9d9;
+    }
+    button:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px #ccc;
+    }
+</style>
