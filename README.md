@@ -57,8 +57,6 @@ TextClean offers a comprehensive set of text transformation options:
 │   │   └── TransformControls.astro
 │   ├── layouts/         # Page layouts
 │   │   └── Layout.astro
-│   ├── lib/             # Utility functions
-│   │   └── utils.ts
 │   ├── pages/           # Page components
 │   │   └── index.astro
 │   ├── scripts/         # Client-side scripts
