@@ -138,45 +138,35 @@ const transformations = [
 ];
 ---
 
-<div>
-    <h4>Text Transformations</h4>
-
-    <div class="panels">
-        {
-            transformations.map((transform) => (
-                <div class="transform-item">
-                    <span class="transform-control">
-                        <input type="checkbox" id={transform.id} />
-                    </span>
-                    <span>
-                        <label for={transform.id} class="title">{transform.label}</label>
-                        <p class="description">{transform.description}</p>
-                        {transform.hasInput && (
-                            <label for={transform.inputId} class="description">
-                                {transform.inputLabel}
-                            </label>
-                            <input
-                                type={transform.inputType as InputType}
-                                id={transform.inputId}
-                                min={transform.inputMin}
-                                max={transform.inputMax}
-                                value={transform.inputDefault}
-                            />
-                        )}
-                    </span>
-                </div>
-            ))
-        }
-    </div>
+<div class="transform-control-grid">
+    {
+        transformations.map((transform) => (
+            <div class="transform-item">
+                <span class="transform-control">
+                    <input type="checkbox" id={transform.id} />
+                </span>
+                <span>
+                    <label for={transform.id} class="title">{transform.label}</label>
+                    {transform.hasInput && (
+                        <label for={transform.inputId} class="description">
+                            {transform.inputLabel}
+                        </label>
+                        <input
+                            type={transform.inputType as InputType}
+                            id={transform.inputId}
+                            min={transform.inputMin}
+                            max={transform.inputMax}
+                            value={transform.inputDefault}
+                        />
+                    )}
+                    <div class="description">{transform.description}</div>
+                </span>
+            </div>
+        ))
+    }
 </div>
 
 <style>
-    h4 {
-        font-size: 1.25rem;
-        font-weight: 400;
-        line-height: 1.75rem;
-        letter-spacing: -0.025em;
-    }
     .transform-item {
         display: flex;
         align-items: start;
