@@ -1,7 +1,7 @@
 
 # TextClean
 
-A powerful web application for cleaning and formatting text with a variety of transformation options.
+A simple web application for cleaning and formatting text with a variety of transformation options.
 
 ## Overview
 
@@ -84,7 +84,7 @@ TextClean offers a comprehensive set of text transformation options:
 
 1. Clone the repository
    ```bash
-   git clone https://github.com/yourusername/textclean.git
+   git clone https://github.com/vberkoz/textclean.git
    cd textclean
    ```
 
