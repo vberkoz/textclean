@@ -3,9 +3,27 @@ import Header from "./Header.astro";
 import Footer from "./Footer.astro";
 import TextArea from "./TextArea.astro";
 import TransformControls from "./TransformControls.astro";
+
+const exampleText = `     <p>   This is an example text  &nbsp;    with     messy formatting.  </p>
+        
+     It contains:
+         - Extra spaces between    words.
+         - Leading and trailing whitespace.
+         - Multiple line breaks.
+
+         - Some HTML tags like <b>bold</b>, <i>italic</i>, and <a href="#">links</a>.
+         - Strange Unicode characters: café, naïve, façade, résumé, coöperate, 你好, 日本語.
+         - And maybe some hidden characters or special spacing like this wide space.
+
+This sentence is short.
+Another one comes after.
+And here’s a third — just to have more content!
+
+Let’s see how your tool handles all of this when applying transformations.
+Have fun testing!`;
 ---
 
-<div>
+<div class="page">
     <Header />
 
     <main>
@@ -15,8 +33,10 @@ import TransformControls from "./TransformControls.astro";
                     id="original-text"
                     label="Original Text"
                     placeholder="Enter or paste your text here..."
+                    value={exampleText}
                 />
                 <button id="reset-button">Reset</button>
+                <button id="load-example">Load Example</button>
             </div>
 
             <div>
@@ -59,6 +79,26 @@ import TransformControls from "./TransformControls.astro";
         const transformedCounter = document.getElementById(
             "transformed-text-counter"
         );
+
+        const exampleText = `     <p>   This is an example text  &nbsp;    with     messy formatting.  </p>
+        
+        It contains:
+            - Extra spaces between    words.
+            - Leading and trailing whitespace.
+            - Multiple line breaks.
+   
+            - Some HTML tags like <b>bold</b>, <i>italic</i>, and <a href="#">links</a>.
+            - Strange Unicode characters: café, naïve, façade, résumé, coöperate, 你好, 日本語.
+            - And maybe some hidden characters or special spacing like this wide space.
+   
+   This sentence is short.
+   Another one comes after.
+   And here’s a third — just to have more content!
+   
+   Let’s see how your tool handles all of this when applying transformations.
+   Have fun testing!`;
+   originalTextarea.value = exampleText;
+            updateTransformedText();
 
         // Apply transformations whenever the original text or transform controls change
         function updateTransformedText() {
@@ -130,6 +170,11 @@ import TransformControls from "./TransformControls.astro";
             }
         }
 
+        document.getElementById("load-example")?.addEventListener("click", () => {
+            originalTextarea.value = exampleText;
+            updateTransformedText();
+        });
+
         // Event listeners
         originalTextarea.addEventListener("input", updateTransformedText);
 
@@ -196,6 +241,15 @@ import TransformControls from "./TransformControls.astro";
 </script>
 
 <style>
+    .page {
+        display: flex;
+        flex-direction: column;
+        min-height: calc(100vh - 16px);
+        padding: 8px;
+    }
+    main {
+        flex: 1;
+    }
     button {
         border: 1px solid #ccc;
         border-radius: .5rem;
